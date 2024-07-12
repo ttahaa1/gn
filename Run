@@ -15,73 +15,96 @@ case $Install in
 1)
 echo -e '\033[0;33mOffice installation has begun'
 sleep 2
-yum update
-yum upgrade
-sudo yum update
-sudo yum upgrade
-sudo yum install lua5.2
-sudo  wget https://luarocks.org/releases/luarocks-2.4.3.tar.gz
-sudo  tar zxpf luarocks-2.4.3.tar.gz
+
+# تحديث النظام وتثبيت الحزم الأساسية
+sudo yum update -y
+sudo yum upgrade -y
+sudo yum install -y \
+  lua \
+  wget \
+  tmux \
+  screen \
+  zip \
+  readline-devel \
+  libconfig-devel \
+  openssl-devel \
+  lua-socket \
+  lua-sec \
+  lua-expat \
+  libevent-devel \
+  make \
+  unzip \
+  git \
+  redis \
+  autoconf \
+  gcc-c++ \
+  jansson-devel \
+  python3-devel \
+  expat-devel \
+  python3 \
+  python3-pip \
+  gnome-calculator \
+  libconfig++-devel \
+  libstdc++-devel \
+  lua-lgi \
+  software-properties-common \
+  libnotify-devel \
+  lua-space \
+  ffmpeg
+
+# تثبيت luarocks والإضافات
+wget https://luarocks.org/releases/luarocks-2.4.3.tar.gz
+tar zxpf luarocks-2.4.3.tar.gz
 cd luarocks-2.4.3
-./configure; sudo make bootstrap
+./configure
+make
+sudo make bootstrap
 sudo luarocks install luasocket
 sudo luarocks install luasec
 sudo luarocks install luautf8
 sudo luarocks install redis-lua
-sudo  luarocks remove lua-cjson2
-sudo  luarocks remove lua-cjson
-sudo  yum install lua-cjson
+sudo luarocks remove lua-cjson2
+sudo luarocks remove lua-cjson
+sudo yum install -y lua-cjson
 sudo luarocks install Lua-cURL
 cd ..
-sudo yum install tmux
-sudo yum install luarocks
-sudo yum install screen
-sudo yum install zip
-sudo yum install libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev lua-socket lua-sec lua-expat libevent-dev make unzip git redis-server autoconf g++ libjansson-dev libpython-dev expat libexpat1-dev
-sudo yum update
-sudo yum install
-sudo yum install upstart-sysv
-wget http://luarocks.org/releases/luarocks-2.2.2.tar.gz;tar zxpf luarocks-2.2.2.tar.gz;cd luarocks-2.2.2 && ./configure
+
+# إعادة تثبيت إصدار أقدم من luarocks
+wget http://luarocks.org/releases/luarocks-2.2.2.tar.gz
+tar zxpf luarocks-2.2.2.tar.gz
+cd luarocks-2.2.2
+./configure
 sudo make bootstrap
 sudo luarocks install luasocket
 sudo luarocks install luasec
 sudo luarocks install lua-term
 sudo luarocks install Lua-cURL
-sudo service redis-server start
-sudo yum install libconfig++9v5 -y 
-sudo yum install libstdc++6 -y
-sudo yum-repository ppa:ubuntu-toolchain-r/test -y 
-sudo yum install lua-lgi -y  
-sudo yum install software-properties-common -y
-sudo yum install libnotify-dev -y 
-sudo yum install lua-space -y
-sudo yum install libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev lua-socket lua-sec lua-expat libevent-dev make unzip git redis-server autoconf g++ libjansson-dev libpython-dev expat libexpat1-dev -y
-yum install python3.8
-yum install python3-pip
-python3.8 -m pip install -U pip
-python3.8 -m pip install -U setuptools
-python3.8 -m pip install yt-dlp -U
-python3.8 -m pip install ffmpeg 
-yum install ffmpeg 
-yum install gnome-calculator
-python3.8 -m pip install gtts -U
-python3.8 -m pip install -U nsfw-detector
-python3.8 -m pip install -U opencv-python
-sudo yum update 
-sudo yum upgrade -y
 cd ..
+
+# بدء خدمة redis
+sudo systemctl start redis
+
+# تثبيت مكتبات Python
+python3 -m pip install -U pip setuptools yt-dlp ffmpeg gtts nsfw-detector opencv-python
+
+# تنظيف الملفات المؤقتة
 rm -rf luarocks*
+
+# فك ضغط الملفات وتنفيذ السكربت
 unzip tdlua.zip
 sudo mv tdlua.so /usr/lib/x86_64-linux-gnu/lua/5.2/tdlua.so
 rm -fr tdlua.zip
-sudo lua5.2 Fast.lua
+sudo lua Fast.lua
 ;;
+
 2)
 echo -e "\e[1m\e[32mThe bot is running now : جاري تشغيل البوت الان : \e[0m"
 sleep 2
+
+# فك ضغط الملفات وتنفيذ السكربت
 unzip tdlua.zip
 sudo mv tdlua.so /usr/lib/x86_64-linux-gnu/lua/5.2/tdlua.so
 rm -fr tdlua.zip
-sudo lua5.2 Fast.lua
+sudo lua Fast.lua
 ;;
 esac
