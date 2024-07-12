@@ -15,8 +15,8 @@ case $Install in
 1)
 echo -e '\033[0;33mOffice installation has begun'
 sleep 2
-apt update
-apt upgrade
+yum update
+yum upgrade
 sudo yum update
 sudo yum upgrade
 sudo yum install lua5.2
